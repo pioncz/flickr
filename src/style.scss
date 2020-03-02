@@ -1,0 +1,53 @@
+$color-bg: #0b1321;
+$color-nav: #1b2d4c;
+$color-search: #fff;
+
+$margin1: 8px;
+$margin1: 16px;
+
+body {
+  background: $color-bg;
+  margin: 0;
+}
+
+nav {
+  text-align: center;
+  padding: $margin1;
+  background: $color-nav;
+
+  input {
+
+  }
+
+  button {
+    padding: 0;
+  }
+}
+
+.search {
+  position: relative;
+  width: 200px;
+  margin: 0 auto;
+  padding: 0 0 50px;
+  text-align: center;
+  background: red;
+  
+	&__circle {
+		width: 100px;
+		height: 100px;
+		border: 20px solid $color-search;
+		border-radius: 100px;
+	}
+
+	&__rectangle {
+		position: absolute;
+		right: 0;
+		bottom: 30px;
+		width: 70px;
+		transform: rotate(45deg);
+		border: 12px solid $color-search;
+    background: $color-search;
+		border-top-right-radius: 12px;
+		border-bottom-right-radius: 12px;
+	}
+}
