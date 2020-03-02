@@ -1,4 +1,5 @@
 listing zdjec
+eslint: 2 spacje
 ellipsis
 search po tagach
 infinite scrolling
@@ -11,3 +12,4 @@ readme: jak odpalac, lista featurow
 animacje dodawania zdjecia do listy
 Download photo button
 Edit z filtrami
+paralax na zdjecia
