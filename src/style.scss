@@ -101,6 +101,7 @@ nav {
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
   overflow: hidden;
+  opacity: 0;
 
   &__image {
     flex-shrink: 0;
@@ -226,5 +227,16 @@ nav {
   100% {
     left: 80%;
     width: 20%;
+  }
+}
+
+@keyframes slide-up {
+  0% {
+      opacity: 0;
+      transform: translateY(40px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0);
   }
 }

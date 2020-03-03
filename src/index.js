@@ -7,7 +7,8 @@ const EditorContainer = document.getElementById('editor');
 const Background = EditorContainer.querySelector('.background');
 const SearchInput = document.getElementById('search');
 const Loader = document.getElementById('loader');
-const AnimationLength = 500;
+const AnimationLength = 500; // resize clicked photo
+const ShowDelay = 200; // new photo animation delay
 let canvas = null;
 let searchValue = '';
 let loadedTags = '';
@@ -107,7 +108,7 @@ const hidePhoto = () => {
   canvas = null;
 }
 
-const addPhoto = (photo) => {
+const addPhoto = (photo, delay) => {
   const container = createElement({element: 'div', className: 'post', container: PhotosContainer});
   const photoElement = createElement({element: 'div', className: 'post__image', container: container});
   const imageElement = new Image();
@@ -120,7 +121,7 @@ const addPhoto = (photo) => {
     imageElement.style.width = (ratio < 1 ? 100 * ratio : 100) + '%';
     imageElement.style.height = (ratio > 1 ? 100 / ratio : 100) + '%';
   };
-  imageElement.addEventListener('click', (e) => {
+  photoElement.addEventListener('click', (e) => {
     showPhoto(e, photo);
   });
   const descriptionElement = createElement({element: 'div', className: 'post__description', container: container});
@@ -134,6 +135,8 @@ const addPhoto = (photo) => {
   postLink.target = ' _blank';
   postLink.href = photo.link;
   postLink.title = 'Photo page on flickr';
+  container.style.animation = `slide-up 0.4s ease ${delay}s forwards`;
+  console.log(delay);
 };
 
 const updatePhotos = async () => {
@@ -155,7 +158,7 @@ const updatePhotos = async () => {
       photo.url =  `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_c.jpg`;
       photo.authorLink = `https:\/\/www.flickr.com\/people\/${photo.owner}`;
       photo.link = `https:\/\/www.flickr.com\/photos\/${photo.owner}\/${photo.id}\/`;
-      addPhoto(photo);
+      addPhoto(photo, (ShowDelay * i)/1000);
   }
 
   Loader.className = '';
