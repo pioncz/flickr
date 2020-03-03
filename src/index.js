@@ -86,23 +86,16 @@ const showPhoto = (e, photo) => {
 
   // load image from data url
   var imageObj = new Image();
-  imageObj.onload = function(image) {
+  imageObj.onload = function() {
     canvas.width = this.width;
     canvas.height = this.height;
     ctx.drawImage(this, 0, 0);
 
-    const ratio = this.width / this.height;
-    const fromWidth = boundingRect.width * (ratio < 1 ? ratio : 1);
-    const fromHeight = boundingRect.height / (ratio > 1 ? ratio : 1);
-    const fromLeft = boundingRect.left + (ratio < 1 ? (boundingRect.width * (1-ratio)) / 2 : 0);
-    const fromTop = boundingRect.top + (ratio > 1 ? (boundingRect.height * (1 - 1 / ratio)) / 2 : 0);
-
     resizePhoto({
-      photoElement: canvas,
-      fromWidth,
-      fromHeight,
-      fromLeft,
-      fromTop,
+      fromWidth: boundingRect.width,
+      fromHeight: boundingRect.height,
+      fromLeft: boundingRect.left,
+      fromTop: boundingRect.top,
     });
   };
   imageObj.src = photo.url;
@@ -115,23 +108,32 @@ const hidePhoto = () => {
 }
 
 const addPhoto = (photo) => {
-  const photoElement = createElement({element: 'div', className: 'post', container: PhotosContainer});
-  const imageElement = createElement({element: 'div', className: 'post__image', container: photoElement});
-  imageElement.style.background = `url(${photo.url}) no-repeat #181e28`;
-  imageElement.style.backgroundSize = 'contain';
-  imageElement.style.backgroundPosition = 'center center';
+  const container = createElement({element: 'div', className: 'post', container: PhotosContainer});
+  const photoElement = createElement({element: 'div', className: 'post__image', container: container});
+  const imageElement = new Image();
+  imageElement.src = photo.url;
+  imageElement.alt = photo.title;
+  photoElement.appendChild(imageElement);
+
+  imageElement.onload = function(image) {
+    const ratio = this.width / this.height;
+    imageElement.style.width = (ratio < 1 ? 100 * ratio : 100) + '%';
+    imageElement.style.height = (ratio > 1 ? 100 / ratio : 100) + '%';
+  };
   imageElement.addEventListener('click', (e) => {
     showPhoto(e, photo);
   });
-  const descriptionElement = createElement({element: 'div', className: 'post__description', container: photoElement});
+  const descriptionElement = createElement({element: 'div', className: 'post__description', container: container});
   createElement({element: 'h3', className: 'post__title', innerText: photo.title, container: descriptionElement});
   const linksElement = createElement({element: 'div', className: 'post__links', container: descriptionElement});
   const authorLink = createElement({element: 'a', innerText: 'Author', container: linksElement});
   authorLink.target = ' _blank';
+  authorLink.title = 'Author page on flickr';
   authorLink.href = photo.authorLink;
   const postLink = createElement({element: 'a', innerText: 'View on Flickr', container: linksElement});
   postLink.target = ' _blank';
   postLink.href = photo.link;
+  postLink.title = 'Photo page on flickr';
 };
 
 const updatePhotos = async () => {
