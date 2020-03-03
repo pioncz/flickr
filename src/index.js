@@ -136,8 +136,11 @@ const addPhoto = (photo, delay) => {
   postLink.href = photo.link;
   postLink.title = 'Photo page on flickr';
   container.style.animation = `slide-up 0.4s ease ${delay}s forwards`;
-  console.log(delay);
 };
+
+fetch('/test', (e) =>{
+  console.log(e);
+});
 
 const updatePhotos = async () => {
   Loader.className = 'active';
